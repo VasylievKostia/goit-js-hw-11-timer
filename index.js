@@ -1,51 +1,40 @@
 class CountdownTimer {
-    constructor({ selector, targetDate }) {
-        this.selector = selector;
-        this.targetDate = targetDate;
-        this.refs = {
-            
-            days: document.querySelector('[data-value=days]'),
-            hours: document.querySelector('[data-value=hours]'),
-            mins: document.querySelector('[data-value=mins]'),
-            secs: document.querySelector('[data-value=secs]'),
-            timerFace: document.querySelector('#timer-1')
-        }
-        this.time = null
-        this.nowDate = null
-        // this.targetDate = new Date('Nov 24, 2021 8:00:00')
-        this.timerStart = this.timerStart.bind(this)
-    }
-    calc = () => {
-        this.nowDate = Date.now()
-        this.time = this.targetDate - this.nowDate
-        const days = Math.floor(time / (1000 * 60 * 60 * 24));
-        this.refs.days.textContent = days < 10 ? `0${days}` : days;
-        const hours = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        this.refs.hours.textContent = hours < 10 ? `0${hours}` : hours;
-        const mins = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
-        this.refs.mins.textContent = mins < 10 ? `0${mins}` : mins;
-        const secs = Math.floor((time % (1000 * 60)) / 1000);
-        this.refs.secs.textContent = secs < 10 ? `0${secs}` : secs;
-        
-    }
-    timerStart = () => {
-    setInterval(this.calc, 1000)
-    }
-    init() {
-this.window.addEventListener('DOMContentLoaded', this.timerStart)
-    }
-    
+  constructor({ selector, targetDate }) {
+    this.selector = selector;
+    this.targetDate = targetDate;
+    this.refs = {
+      daysRef: document.querySelector('[data-value="days"]'),
+      hrRef: document.querySelector('[data-value="hours"]'),
+      minRef: document.querySelector('[data-value="mins"]'),
+      secRef: document.querySelector('[data-value="secs"]'),
+      body: document.querySelector('.body'),
+    };
+  }
+
+  start() {
+    setInterval(() => {
+      const nowTime = Date.now();
+      const time = this.targetDate - nowTime;
+      const day = Math.floor(time / (1000 * 60 * 60 * 24));
+      const hr = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const min = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+      const sec = Math.floor((time % (1000 * 60)) / 1000);
+
+      this.refs.daysRef.textContent = day < 10 ? `0${day}` : day;
+      this.refs.hrRef.textContent = hr < 10 ? `0${hr}` : hr;
+      this.refs.minRef.textContent = min < 10 ? `0${min}` : min;
+      this.refs.secRef.textContent = sec < 10 ? `0${sec}` : sec;
+    }, 1000);
+  }
 }
 
+// запускнового таймера
 const watch = new CountdownTimer({
   selector: '#timer-1',
-  targetDate: new Date('Nov 24, 2021 8:00:00'),
+  targetDate: new Date('September 1, 2021 00:00:00'),
 });
 
-watch.init();
-
-
-
+watch.start();
 
 // const refs = {
 //   days: document.querySelector('[data-value=days]'),
@@ -84,4 +73,4 @@ watch.init();
 
 // window.addEventListener('DOMContentLoaded', timerStart)
 
-  
+
