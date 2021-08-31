@@ -2,36 +2,48 @@ class CountdownTimer {
   constructor({ selector, targetDate }) {
     this.selector = selector;
     this.targetDate = targetDate;
+    this.id = null
     this.refs = {
       daysRef: document.querySelector('[data-value="days"]'),
       hrRef: document.querySelector('[data-value="hours"]'),
       minRef: document.querySelector('[data-value="mins"]'),
       secRef: document.querySelector('[data-value="secs"]'),
       body: document.querySelector('.body'),
+       timerFace: document.querySelector('#timer-1')
     };
   }
 
   start() {
-    setInterval(() => {
+    this.id = setInterval(() => {
+     
       const nowTime = Date.now();
       const time = this.targetDate - nowTime;
       const day = Math.floor(time / (1000 * 60 * 60 * 24));
       const hr = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const min = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
       const sec = Math.floor((time % (1000 * 60)) / 1000);
-
+      
+      if (time < 0) {
+        this.stop()
+      }
+      
       this.refs.daysRef.textContent = day < 10 ? `0${day}` : day;
       this.refs.hrRef.textContent = hr < 10 ? `0${hr}` : hr;
       this.refs.minRef.textContent = min < 10 ? `0${min}` : min;
       this.refs.secRef.textContent = sec < 10 ? `0${sec}` : sec;
     }, 1000);
   }
+  
+  stop() {
+    clearInterval(this.id)
+   this.refs.timerFace.textContent = 'Finish'
+  }
 }
 
 // запускнового таймера
 const watch = new CountdownTimer({
   selector: '#timer-1',
-  targetDate: new Date('September 1, 2021 00:00:00'),
+  targetDate: new Date('September 10, 2021 00:00:00'),
 });
 
 watch.start();
